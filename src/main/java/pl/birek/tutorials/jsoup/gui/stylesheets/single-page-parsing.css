@@ -1,0 +1,11 @@
+BorderPane {
+    -fx-background-color: linear-gradient(to bottom right, #b9f442, #41b5f4);
+}
+
+.property-column, .value-column {
+    -fx-alignment: center;
+}
+
+.property-column {
+    -fx-font-weight: bold;
+}
