@@ -3,11 +3,10 @@ package pl.birek.tutorials.jsoup.model;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.net.URL;
 
 public class WebsitePage {
-    private final URL url;
+    private URL url;
     private String title;
     private Elements metaDescriptions;
     private Elements headers;
@@ -25,7 +24,10 @@ public class WebsitePage {
         this.cssStylesheetResources = new Elements();
     }
 
-    // TITLE
+    public URL getUrl() {
+        return url;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -34,7 +36,6 @@ public class WebsitePage {
         this.title = title;
     }
 
-    // META DESCRIPTIONS
     public Elements getMetaDescriptions() {
         return metaDescriptions;
     }
@@ -47,7 +48,6 @@ public class WebsitePage {
                 metaDescriptions.add(elem);
     }
 
-    // HEADERS
     public Elements getHeaders() {
         return headers;
     }
@@ -56,7 +56,6 @@ public class WebsitePage {
         headers = doc.select("h1");
     }
 
-    // IMAGES
     public Elements getImages() {
         return images;
     }
@@ -65,7 +64,6 @@ public class WebsitePage {
         images = doc.select("img");
     }
 
-    // JAVASCRIPT RESOURCES
     public Elements getJavaScriptResources() {
         return javaScriptResources;
     }
@@ -78,7 +76,6 @@ public class WebsitePage {
                 javaScriptResources.add(elem);
     }
 
-    // CSS RESOURCES
     public Elements getCssStylesheetResources() {
         return cssStylesheetResources;
     }

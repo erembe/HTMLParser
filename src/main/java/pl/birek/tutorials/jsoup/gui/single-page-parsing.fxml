@@ -8,16 +8,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.birek.tutorials.jsoup.controllers.SinglePageParsingController">
+<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.birek.tutorials.jsoup.controllers.SinglePageParsingController">
     <top>
-        <HBox>
+        <HBox maxWidth="640">
             <TextField fx:id="urlTextField" HBox.hgrow="ALWAYS">
                 <HBox.margin>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" text="Parse" onAction="#parseButtonAction">
+            <Button mnemonicParsing="false" onAction="#parseButtonAction" text="Parse">
                 <HBox.margin>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </HBox.margin>
@@ -30,7 +29,7 @@
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
-            <VBox maxHeight="250" maxWidth="120" minWidth="120" styleClass="property-column">
+            <VBox maxWidth="120" minWidth="120" styleClass="property-column">
                 <TextField editable="false" text="TITLE:" />
                 <TextField editable="false" text="DESCRIPTION:" />
                 <TextField editable="false" text="H1 HEADERS:" />
@@ -39,13 +38,13 @@
                 <TextField editable="false" text="STYLESHEETS:" />
             </VBox>
 
-            <VBox maxHeight="250" styleClass="value-column" HBox.hgrow="ALWAYS">
-                <TextField editable="false" fx:id="titleField" />
-                <TextField editable="false" fx:id="metaDescriptionsField" />
-                <TextField editable="false" fx:id="h1HeadersField" />
-                <TextField editable="false" fx:id="imagesField" />
-                <TextField editable="false" fx:id="javascriptField" />
-                <TextField editable="false" fx:id="cssField" />
+            <VBox styleClass="value-column" HBox.hgrow="ALWAYS">
+                <TextField fx:id="titleField" editable="false" />
+                <TextField fx:id="metaDescriptionsField" editable="false" />
+                <TextField fx:id="h1HeadersField" editable="false" />
+                <TextField fx:id="imagesField" editable="false" />
+                <TextField fx:id="javascriptField" editable="false" />
+                <TextField fx:id="cssField" editable="false" />
             </VBox>
         </HBox>
     </center>
