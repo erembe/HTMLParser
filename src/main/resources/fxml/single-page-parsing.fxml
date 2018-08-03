@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.birek.tutorials.jsoup.controllers.SinglePageParsingController">
+<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.birek.tutorials.jsoup.controllers.SinglePageParsingController">
     <top>
         <HBox maxWidth="640">
             <TextField fx:id="urlTextField" HBox.hgrow="ALWAYS">
@@ -49,6 +50,6 @@
         </HBox>
     </center>
     <stylesheets>
-        <URL value="@stylesheets/single-page-parsing.css" />
+        <URL value="@../css/single-page-parsing.css" />
     </stylesheets>
 </BorderPane>

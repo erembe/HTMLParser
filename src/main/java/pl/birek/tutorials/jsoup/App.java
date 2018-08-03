@@ -6,6 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Paths;
+
 // TODO - implement JavaDoc annotations
 // TODO - implement JUnit tests
 public class App extends Application
@@ -18,9 +24,13 @@ public class App extends Application
     @Override
     public void start(Stage primaryStage) {
         Parent root;
+        URL url = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("gui/single-page-parsing.fxml"));
+            url = Paths.get("src/main/resources/fxml/single-page-parsing.fxml").toUri().toURL();
+            root = FXMLLoader.load(url);
+//            root = FXMLLoader.load(getClass().getResource(url.getPath()));
+
             primaryStage.setTitle("Homepage - HTML Parser");
             primaryStage.setMinWidth(600.0);
             primaryStage.setMinHeight(280.0);
@@ -30,6 +40,7 @@ public class App extends Application
         catch (Exception exception){
             // TODO implement error handling
             System.err.println("Error occured during attempt to load FXML resource.");
+            System.out.println("url = " + url);
             exception.printStackTrace();
             System.exit(-1);
         }
