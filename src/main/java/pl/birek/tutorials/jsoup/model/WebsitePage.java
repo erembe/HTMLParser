@@ -28,6 +28,10 @@ public class WebsitePage {
         return url;
     }
 
+    public void setUrl(URL url){
+        this.url = url;
+    }
+
     public String getTitle() {
         return title;
     }

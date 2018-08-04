@@ -7,6 +7,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
+import pl.birek.tutorials.jsoup.enums.WebProtocol;
 import pl.birek.tutorials.jsoup.model.WebsitePage;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.net.UnknownHostException;
 public class SinglePageParsingController {
     private Document document;
     private URL url;
+    private WebsitePage websitePage;
 
     @FXML TextField urlTextField;
     @FXML TextField titleField;
@@ -31,38 +33,40 @@ public class SinglePageParsingController {
     // TODO create enums protocols?
 
     public void parseButtonAction() {
-        // TODO handle redirections to change url in text field
+        if (urlTextField.getText().equals(""))
+            return;
 
-        if (isProtocolProvided()) {
-            if (!getProtocol().equals("http") && !getProtocol().equals("https"))
-                changeProtocol("http");
-        }
-        else
-            setProtocol("http");
+        handleProtocol();
 
         try {
             url = new URL(urlTextField.getText());
         } catch (MalformedURLException e) {
-            System.err.println("Unknown error. Please try again.");
+            System.err.println("Unknown error. Please try again."); // TODO - dialog message
+            return;
         }
+        websitePage = new WebsitePage(url);
+        Connection connection = Jsoup.connect(websitePage.getUrl().toString()); // TODO - check exceptions?
 
-        WebsitePage websitePage = new WebsitePage(url);
-        Connection connection = Jsoup.connect(websitePage.getUrl().toString());
 
         try {
             document = connection.get();
         } catch (UnknownHostException | IllegalArgumentException e) {
             System.err.println("Unknown host. Please check website URL."); // TODO - dialog message
-        } catch (SocketTimeoutException e) {
-            System.err.println("Connection timed out. Please try again."); // TODO - dialog message
-        } catch (HttpStatusException e) {
-            System.err.println("Server response is not OK. Please try again."); // TODO - dialog message
-        } catch (MalformedURLException e) {
-            System.err.println("Provided URL (" + urlTextField.getText() + ") is malformed. Please provide proper URL.\n"); // TODO - dialog message
-        } catch (UnsupportedMimeTypeException e) {
-            System.err.println("Unsupported resource type."); // TODO - dialog message
+            return;
+        } catch (HttpStatusException | SocketTimeoutException | MalformedURLException | UnsupportedMimeTypeException e) {
+            System.err.println("Server response is not OK. Connection timed out, resource type is unsupported or provided URL is malformed. Please try again."); // TODO - dialog message
+            return;
         } catch (IOException e) {
             System.err.println("Unknown error. Please try again."); // TODO - dialog message
+            return;
+        }
+
+        try {
+            handleRedirects(connection);
+        } catch (IOException e){
+            System.err.println("Error occurred during attempt to request. Please try again."); // TODO - dialog message
+            e.printStackTrace();
+            return;
         }
 
         if (document != null){
@@ -76,26 +80,48 @@ public class SinglePageParsingController {
         }
     }
 
-    private void changeProtocol(String protocolToSet) {
+    private void handleProtocol() {
+        if (isProtocolProvided()) {
+            if (!getProtocol().equals(WebProtocol.HTTP) && !getProtocol().equals(WebProtocol.HTTPS))
+                changeProtocol(WebProtocol.HTTP);
+        }
+        else
+            setProtocol(WebProtocol.HTTP);
+    }
+
+    private void handleRedirects(Connection connection) throws IOException {
+        Connection.Response response;
+            response = connection.followRedirects(true).execute();
+        if (!websitePage.getUrl().equals(response.url())){
+            websitePage.setUrl(response.url());
+            urlTextField.setText(websitePage.getUrl().toString());
+        }
+    }
+
+    private void changeProtocol(WebProtocol protocolToSet) {
         StringBuilder sourceProtocol = new StringBuilder();
 
         for (int i=0; i< urlTextField.getText().indexOf("://"); i++)
             sourceProtocol.append(urlTextField.getText().charAt(i));
 
-        urlTextField.setText(urlTextField.getText().replace(sourceProtocol, protocolToSet));
+        urlTextField.setText(urlTextField.getText().replace(sourceProtocol, protocolToSet.toString().toLowerCase()));
     }
 
-    private void setProtocol(String protocolToSet) {
-        urlTextField.setText(protocolToSet + "://" + urlTextField.getText());
+    private void setProtocol(WebProtocol protocolToSet) {
+        urlTextField.setText(protocolToSet.toString().toLowerCase() + "://" + urlTextField.getText());
     }
 
-    private String getProtocol() {
+    private WebProtocol getProtocol() {
         StringBuilder sourceProtocol = new StringBuilder();
 
         for (int i=0; i< urlTextField.getText().indexOf("://"); i++)
             sourceProtocol.append(urlTextField.getText().charAt(i));
 
-        return sourceProtocol.toString();
+        for (WebProtocol protocol : WebProtocol.values())
+            if (WebProtocol.compareToString(protocol, sourceProtocol.toString()))
+                return protocol;
+
+        return WebProtocol.UNKNOWN;
     }
 
     private boolean isProtocolProvided() {

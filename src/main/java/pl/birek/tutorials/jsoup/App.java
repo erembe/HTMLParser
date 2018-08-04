@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.birek.tutorials.jsoup.enums.WebProtocol;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -39,8 +40,7 @@ public class App extends Application
         }
         catch (Exception exception){
             // TODO implement error handling
-            System.err.println("Error occured during attempt to load FXML resource.");
-            System.out.println("url = " + url);
+            System.err.println("Error occured during attempt to load FXML resource. URL = " + url);
             exception.printStackTrace();
             System.exit(-1);
         }
