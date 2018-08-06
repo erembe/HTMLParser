@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.birek.tutorials.jsoup</groupId>
+    <groupId>pl.birek.web-tools</groupId>
     <artifactId>html-parser</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -34,7 +34,7 @@
     <distributionManagement>
         <repository>
             <uniqueVersion>false</uniqueVersion>
-            <id>jsoup-tutorials</id>
+            <id>web-tools</id>
             <name>Tutorials Repository - JSoup</name>
             <url>file://E:/projekty/deploys</url>
             <layout>default</layout>
@@ -70,7 +70,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>lib/</classpathPrefix>
-                                <mainClass>pl.birek.tutorials.jsoup.App</mainClass>
+                                <mainClass>pl.birek.htmlparser.App</mainClass>
                             </manifest>
                         </archive>
                     </configuration>

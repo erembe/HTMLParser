@@ -3,21 +3,24 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.birek.tutorials.jsoup.controllers.SinglePageParsingController">
+<BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.birek.htmlparser.controllers.SinglePageParsingController">
     <top>
         <HBox maxWidth="640">
-            <TextField fx:id="urlTextField" HBox.hgrow="ALWAYS">
+            <TextField fx:id="urlTextField" onKeyPressed="#enterPressed" HBox.hgrow="ALWAYS">
                 <HBox.margin>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#parseButtonAction" text="Parse">
+            <ProgressIndicator progress="0.0" HBox.hgrow="NEVER">
+                <HBox.margin><Insets bottom="5.0" top="15.0" /></HBox.margin>
+            </ProgressIndicator>
+            <Button onAction="#parseButtonAction" text="Parse">
                 <HBox.margin>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </HBox.margin>
@@ -33,19 +36,37 @@
             <VBox maxWidth="120" minWidth="120" styleClass="property-column">
                 <TextField editable="false" text="TITLE:" />
                 <TextField editable="false" text="DESCRIPTION:" />
+                <TextField editable="false" text="CANONICAL:" />
                 <TextField editable="false" text="H1 HEADERS:" />
+                <TextField editable="false" text="H2 HEADERS:" />
+                <TextField editable="false" text="H3 HEADERS:" />
+                <TextField editable="false" text="H4 HEADERS:" />
+                <TextField editable="false" text="H5 HEADERS:" />
+                <TextField editable="false" text="H6 HEADERS:" />
+                <TextField editable="false" text="LANGUAGE:" />
                 <TextField editable="false" text="IMAGES:" />
                 <TextField editable="false" text="JAVASCRIPT:" />
                 <TextField editable="false" text="STYLESHEETS:" />
+                <TextField editable="false" text="REDIRECTS:" />
+                <TextField editable="false" text="SSL:" />
             </VBox>
 
             <VBox styleClass="value-column" HBox.hgrow="ALWAYS">
                 <TextField fx:id="titleField" editable="false" />
                 <TextField fx:id="metaDescriptionsField" editable="false" />
+                <TextField fx:id="canonicalsField" editable="false" />
                 <TextField fx:id="h1HeadersField" editable="false" />
+                <TextField fx:id="h2HeadersField" editable="false" />
+                <TextField fx:id="h3HeadersField" editable="false" />
+                <TextField fx:id="h4HeadersField" editable="false" />
+                <TextField fx:id="h5HeadersField" editable="false" />
+                <TextField fx:id="h6HeadersField" editable="false" />
+                <TextField fx:id="langField" editable="false" />
                 <TextField fx:id="imagesField" editable="false" />
                 <TextField fx:id="javascriptField" editable="false" />
                 <TextField fx:id="cssField" editable="false" />
+                <TextField fx:id="redirectsField" editable="false" />
+                <TextField fx:id="sslField" editable="false" />
             </VBox>
         </HBox>
     </center>

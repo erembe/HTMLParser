@@ -1,15 +1,11 @@
-package pl.birek.tutorials.jsoup;
+package pl.birek.htmlparser;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pl.birek.tutorials.jsoup.enums.WebProtocol;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Paths;
 
@@ -34,7 +30,7 @@ public class App extends Application
 
             primaryStage.setTitle("Homepage - HTML Parser");
             primaryStage.setMinWidth(600.0);
-            primaryStage.setMinHeight(280.0);
+            primaryStage.setMinHeight(480.0);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         }
