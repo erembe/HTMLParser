@@ -31,6 +31,7 @@ public class App extends Application
             primaryStage.setTitle("Homepage - HTML Parser");
             primaryStage.setMinWidth(600.0);
             primaryStage.setMinHeight(480.0);
+            //
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         }
