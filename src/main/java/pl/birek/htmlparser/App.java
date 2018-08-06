@@ -29,9 +29,8 @@ public class App extends Application
 //            root = FXMLLoader.load(getClass().getResource(url.getPath()));
 
             primaryStage.setTitle("Homepage - HTML Parser");
-            primaryStage.setMinWidth(600.0);
-            primaryStage.setMinHeight(480.0);
-            //
+            primaryStage.setMinWidth(840.0);
+            primaryStage.setMinHeight(550.0);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         }

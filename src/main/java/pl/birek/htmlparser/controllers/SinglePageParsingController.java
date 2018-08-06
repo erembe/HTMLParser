@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -24,6 +25,7 @@ public class SinglePageParsingController {
     private StringBuilder redirectsChain;
 
     @FXML TextField urlTextField;
+    @FXML Text messageBox;
     @FXML TextField titleField;
     @FXML TextField metaDescriptionsField;
     @FXML TextField canonicalsField;
@@ -43,6 +45,7 @@ public class SinglePageParsingController {
     // TODO - add progress indicator
 
     public void parseButtonAction() {
+        messageBox.setText("");
 
         // TODO - disable parseButton until anything is written in text field
         if (urlTextField.getText().equals(""))
@@ -57,13 +60,13 @@ public class SinglePageParsingController {
             document = connection.get();
             websitePage = new WebsitePage(urlTextField.getText());
         } catch (UnknownHostException | IllegalArgumentException e) {
-            System.err.println("Unknown host. Please check website URL."); // TODO - dialog message
+            messageBox.setText("Unknown host. Please check website URL.");
             return;
         } catch (HttpStatusException | SocketTimeoutException | MalformedURLException | UnsupportedMimeTypeException e) {
-            System.err.println("Server response is not OK. Connection timed out, resource type is unsupported, authorization is required or provided URL is malformed. Please try again."); // TODO - dialog message
+            messageBox.setText("Server response is not OK. Connection timed out, resource type is unsupported, authorization is required or provided URL is malformed. Please try again.");
             return;
         } catch (IOException e) {
-            System.err.println("Unknown error. Please try again."); // TODO - dialog message (send logs?)
+            messageBox.setText("Unknown error. Please try again.");
             return;
         }
 
