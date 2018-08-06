@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.birek.htmlparser.enums.WebProtocol;
-import sun.awt.windows.WEmbeddedFrame;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -95,7 +94,7 @@ public class WebsitePage {
     }
 
     public void parseDocument(Document document) {
-        this.title = document.title(); // TODO what in case of multiple <title> tags?, empty <title> tag or none
+        this.title = document.title();
         parseLanguage(document);
         parseMetaDescriptions(document);
         parseLinkTags(document);

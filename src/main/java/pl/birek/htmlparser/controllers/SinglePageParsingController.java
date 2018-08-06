@@ -9,6 +9,7 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import pl.birek.htmlparser.enums.WebProtocol;
 import pl.birek.htmlparser.model.WebsitePage;
 
@@ -79,10 +80,6 @@ public class SinglePageParsingController {
             setProtocol(WebProtocol.HTTP);
     }
 
-    private boolean isProtocolProvided() {
-        return urlTextField.getText().contains("://");
-    }
-
     private void changeProtocol(WebProtocol protocolToSet) {
         StringBuilder sourceProtocol = new StringBuilder();
 
@@ -95,20 +92,6 @@ public class SinglePageParsingController {
     private void setProtocol(WebProtocol protocolToSet) {
         urlTextField.setText(protocolToSet.toString().toLowerCase() + "://" + urlTextField.getText());
     }
-
-    private WebProtocol getProtocol() {
-        StringBuilder sourceProtocol = new StringBuilder();
-
-        for (int i=0; i< urlTextField.getText().indexOf("://"); i++)
-            sourceProtocol.append(urlTextField.getText().charAt(i));
-
-        for (WebProtocol protocol : WebProtocol.values())
-            if (WebProtocol.compareToString(protocol, sourceProtocol.toString()))
-                return protocol;
-
-        return WebProtocol.UNKNOWN;
-    }
-
 
     private void handleRedirects() throws IOException {
         connection = Jsoup.connect(urlTextField.getText());
@@ -131,60 +114,69 @@ public class SinglePageParsingController {
         }
     }
 
+    private boolean isProtocolProvided() {
+        return urlTextField.getText().contains("://");
+    }
+
+    private WebProtocol getProtocol() {
+        StringBuilder sourceProtocol = new StringBuilder();
+
+        for (int i=0; i< urlTextField.getText().indexOf("://"); i++)
+            sourceProtocol.append(urlTextField.getText().charAt(i));
+
+        for (WebProtocol protocol : WebProtocol.values())
+            if (WebProtocol.compareToString(protocol, sourceProtocol.toString()))
+                return protocol;
+
+        return WebProtocol.UNKNOWN;
+    }
+
     // TODO create something to show more than one f.e. meta description, header etc
     // TODO add external linking field
-    // TODO move to separate methods
     private void fillColumns(WebsitePage websitePage) {
         titleField.setText(!websitePage.getTitle().equals("") ? websitePage.getTitle() : "<none>");
-        metaDescriptionsField.setText(Integer.toString(websitePage.getMetaDescriptions().size()));
-        canonicalsField.setText(Integer.toString(websitePage.getCanonicals().size()));
-        h1HeadersField.setText(Integer.toString(websitePage.getHeaders("h1").size()));
-        h2HeadersField.setText(Integer.toString(websitePage.getHeaders("h2").size()));
-        h3HeadersField.setText(Integer.toString(websitePage.getHeaders("h3").size()));
-        h4HeadersField.setText(Integer.toString(websitePage.getHeaders("h4").size()));
-        h5HeadersField.setText(Integer.toString(websitePage.getHeaders("h5").size()));
-        h6HeadersField.setText(Integer.toString(websitePage.getHeaders("h6").size()));
         langField.setText(!websitePage.getLanguage().equals("") ? websitePage.getLanguage() : "<none>");
-        imagesField.setText(Integer.toString(websitePage.getImages().size()));
-        javascriptField.setText(Integer.toString(websitePage.getJavaScriptResources().size()));
-        cssField.setText(Integer.toString(websitePage.getCssStylesheetResources().size()));
         redirectsField.setText(redirectsChain.toString());
         sslField.setText(websitePage.getProtocol().equals(WebProtocol.HTTPS) ? "SSL found" : "SSL not found");
+        h1HeadersField.setText(fillHeaders(websitePage.getHeaders("h1")));
+        h2HeadersField.setText(fillHeaders(websitePage.getHeaders("h2")));
+        h3HeadersField.setText(fillHeaders(websitePage.getHeaders("h3")));
+        h4HeadersField.setText(fillHeaders(websitePage.getHeaders("h4")));
+        h5HeadersField.setText(fillHeaders(websitePage.getHeaders("h5")));
+        h6HeadersField.setText(fillHeaders(websitePage.getHeaders("h6")));
 
-        if (websitePage.getMetaDescriptions().size() == 1)
-            metaDescriptionsField.setText(websitePage.getMetaDescriptions().first().attr("content"));
-        else if (websitePage.getMetaDescriptions().size() == 0)
-            metaDescriptionsField.setText("<none>");
+        switch (websitePage.getMetaDescriptions().size()){
+            case 0: metaDescriptionsField.setText("<none>"); break;
+            case 1: metaDescriptionsField.setText(websitePage.getMetaDescriptions().first().attr("content")); break;
+            default: metaDescriptionsField.setText(Integer.toString(websitePage.getMetaDescriptions().size()));
+        }
 
-        if (websitePage.getCanonicals().size() == 1)
-            canonicalsField.setText(websitePage.getCanonicals().first().attr("href"));
+        switch (websitePage.getCanonicals().size()){
+            case 0: canonicalsField.setText("<none>"); break;
+            case 1: canonicalsField.setText(websitePage.getCanonicals().first().attr("href")); break;
+            default: canonicalsField.setText(Integer.toString(websitePage.getCanonicals().size()));
+        }
 
-        if (websitePage.getHeaders("h1").size() == 1)
-            h1HeadersField.setText(websitePage.getHeaders("h1").first().text());
+        switch (websitePage.getImages().size()){
+            case 1: imagesField.setText(websitePage.getImages().first().attr("src")); break;
+            default: imagesField.setText(Integer.toString(websitePage.getImages().size()));
+        }
 
-        if (websitePage.getHeaders("h2").size() == 1)
-            h2HeadersField.setText(websitePage.getHeaders("h2").first().text());
+        switch (websitePage.getJavaScriptResources().size()){
+            case 1: javascriptField.setText(websitePage.getJavaScriptResources().first().attr("src")); break;
+            default: javascriptField.setText(Integer.toString(websitePage.getJavaScriptResources().size()));
+        }
 
-        if (websitePage.getHeaders("h3").size() == 1)
-            h3HeadersField.setText(websitePage.getHeaders("h3").first().text());
+        switch (websitePage.getCssStylesheetResources().size()){
+            case 1: cssField.setText(websitePage.getCssStylesheetResources().first().attr("href")); break;
+            default: cssField.setText(Integer.toString(websitePage.getCssStylesheetResources().size()));
+        }
+    }
 
-        if (websitePage.getHeaders("h4").size() == 1)
-            h4HeadersField.setText(websitePage.getHeaders("h4").first().text());
-
-        if (websitePage.getHeaders("h5").size() == 1)
-            h5HeadersField.setText(websitePage.getHeaders("h5").first().text());
-
-        if (websitePage.getHeaders("h6").size() == 1)
-            h6HeadersField.setText(websitePage.getHeaders("h6").first().text());
-
-        if (websitePage.getImages().size() == 1)
-            imagesField.setText(websitePage.getImages().first().text());
-
-        if (websitePage.getJavaScriptResources().size() == 1)
-            javascriptField.setText(websitePage.getJavaScriptResources().first().text());
-
-        if (websitePage.getCssStylesheetResources().size() == 1)
-            cssField.setText(websitePage.getCssStylesheetResources().first().text());
+    private String fillHeaders(Elements headers) {
+        if (headers.size() == 1)
+            return headers.first().text();
+        return Integer.toString(headers.size());
     }
 
     public void enterPressed(KeyEvent keyEvent) {
