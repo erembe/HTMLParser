@@ -1,4 +1,4 @@
-package pl.birek.tutorials.jsoup;
+package pl.birek.htmlparser;
 
 import static org.junit.Assert.assertTrue;
 
