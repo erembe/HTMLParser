@@ -9,9 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.text.Text?>
 <BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.birek.htmlparser.controllers.SinglePageParsingController">
     <top>
-        <HBox maxWidth="640">
+        <VBox>
+        <HBox>
             <TextField fx:id="urlTextField" onKeyPressed="#enterPressed" HBox.hgrow="ALWAYS">
                 <HBox.margin>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -26,6 +28,14 @@
                 </HBox.margin>
             </Button>
         </HBox>
+            <HBox>
+                <Text fx:id="messageBox">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                    </HBox.margin>
+                </Text>
+            </HBox>
+        </VBox>
     </top>
 
     <center>
