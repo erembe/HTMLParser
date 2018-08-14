@@ -13,21 +13,21 @@
 <BorderPane prefWidth="400" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.birek.htmlparser.controllers.SinglePageParsingController">
     <top>
         <VBox>
-        <HBox>
-            <TextField fx:id="urlTextField" onKeyPressed="#enterPressed" HBox.hgrow="ALWAYS">
-                <HBox.margin>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </HBox.margin>
-            </TextField>
-            <ProgressIndicator progress="0.0" HBox.hgrow="NEVER">
-                <HBox.margin><Insets bottom="5.0" top="15.0" /></HBox.margin>
-            </ProgressIndicator>
-            <Button onAction="#parseButtonAction" text="Parse">
-                <HBox.margin>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </HBox.margin>
-            </Button>
-        </HBox>
+            <HBox>
+                <TextField fx:id="urlTextField" onKeyPressed="#enterPressed" HBox.hgrow="ALWAYS">
+                    <HBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </HBox.margin>
+                </TextField>
+                <ProgressIndicator fx:id="progressCircle" progress="0.0" HBox.hgrow="NEVER">
+                    <HBox.margin><Insets bottom="5.0" top="15.0" /></HBox.margin>
+                </ProgressIndicator>
+                <Button onAction="#parseButtonAction" text="Parse">
+                    <HBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+            </HBox>
             <HBox>
                 <Text fx:id="messageBox">
                     <HBox.margin>

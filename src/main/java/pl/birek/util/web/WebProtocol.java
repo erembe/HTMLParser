@@ -1,4 +1,4 @@
-package pl.birek.htmlparser.enums;
+package pl.birek.util.web;
 
 public enum WebProtocol {
     ARP, DHCP, DNS, FTP, SFTP, HTTP, HTTPS, IMAP, ICMP, IDRP, IP, IRC, POP3, PAR, RLOGIN, SMTP, SSL, SSH, TCP, TELNET, UPD, UPS, UNKNOWN;
@@ -31,5 +31,3 @@ public enum WebProtocol {
         return false;
     }
 }
-
-

@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 
 // TODO - implement JavaDoc annotations
 // TODO - implement JUnit tests
+// TODO - move WebsitePage & WebProtocol to another package
 public class App extends Application
 {
     public static void main( String[] args )
@@ -26,7 +27,6 @@ public class App extends Application
         try {
             url = Paths.get("src/main/resources/fxml/single-page-parsing.fxml").toUri().toURL();
             root = FXMLLoader.load(url);
-//            root = FXMLLoader.load(getClass().getResource(url.getPath()));
 
             primaryStage.setTitle("Homepage - HTML Parser");
             primaryStage.setMinWidth(840.0);
@@ -35,7 +35,6 @@ public class App extends Application
             primaryStage.show();
         }
         catch (Exception exception){
-            // TODO implement error handling
             System.err.println("Error occured during attempt to load FXML resource. URL = " + url);
             exception.printStackTrace();
             System.exit(-1);

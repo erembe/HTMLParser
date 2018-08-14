@@ -1,6 +1,7 @@
 package pl.birek.htmlparser.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,8 +12,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import pl.birek.htmlparser.enums.WebProtocol;
-import pl.birek.htmlparser.model.WebsitePage;
+import pl.birek.util.web.WebProtocol;
+import pl.birek.util.web.WebsitePage;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,8 +25,9 @@ public class SinglePageParsingController {
     private Connection connection;
     private StringBuilder redirectsChain;
 
-    @FXML TextField urlTextField;
     @FXML Text messageBox;
+    @FXML ProgressIndicator progressCircle;
+    @FXML TextField urlTextField;
     @FXML TextField titleField;
     @FXML TextField metaDescriptionsField;
     @FXML TextField canonicalsField;
@@ -46,12 +48,10 @@ public class SinglePageParsingController {
 
     public void parseButtonAction() {
         messageBox.setText("");
-
-        // TODO - disable parseButton until anything is written in text field
         if (urlTextField.getText().equals(""))
             return;
-        handleProtocol();
 
+        handleProtocol();
         Document document;
         WebsitePage websitePage;
 
@@ -72,6 +72,7 @@ public class SinglePageParsingController {
 
         websitePage.parseDocument(document);
         fillColumns(websitePage);
+        progressCircle.setProgress(1);
     }
 
     private void handleProtocol() {
