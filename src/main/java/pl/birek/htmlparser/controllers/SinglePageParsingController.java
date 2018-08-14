@@ -1,17 +1,19 @@
 package pl.birek.htmlparser.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import pl.birek.htmlparser.enums.WebProtocol;
-import pl.birek.htmlparser.model.WebsitePage;
+import pl.birek.util.web.WebProtocol;
+import pl.birek.util.web.WebsitePage;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,6 +25,8 @@ public class SinglePageParsingController {
     private Connection connection;
     private StringBuilder redirectsChain;
 
+    @FXML Text messageBox;
+    @FXML ProgressIndicator progressCircle;
     @FXML TextField urlTextField;
     @FXML TextField titleField;
     @FXML TextField metaDescriptionsField;
@@ -43,12 +47,11 @@ public class SinglePageParsingController {
     // TODO - add progress indicator
 
     public void parseButtonAction() {
-
-        // TODO - disable parseButton until anything is written in text field
+        messageBox.setText("");
         if (urlTextField.getText().equals(""))
             return;
-        handleProtocol();
 
+        handleProtocol();
         Document document;
         WebsitePage websitePage;
 
@@ -57,18 +60,19 @@ public class SinglePageParsingController {
             document = connection.get();
             websitePage = new WebsitePage(urlTextField.getText());
         } catch (UnknownHostException | IllegalArgumentException e) {
-            System.err.println("Unknown host. Please check website URL."); // TODO - dialog message
+            messageBox.setText("Unknown host. Please check website URL.");
             return;
         } catch (HttpStatusException | SocketTimeoutException | MalformedURLException | UnsupportedMimeTypeException e) {
-            System.err.println("Server response is not OK. Connection timed out, resource type is unsupported, authorization is required or provided URL is malformed. Please try again."); // TODO - dialog message
+            messageBox.setText("Server response is not OK. Connection timed out, resource type is unsupported, authorization is required or provided URL is malformed. Please try again.");
             return;
         } catch (IOException e) {
-            System.err.println("Unknown error. Please try again."); // TODO - dialog message (send logs?)
+            messageBox.setText("Unknown error. Please try again.");
             return;
         }
 
         websitePage.parseDocument(document);
         fillColumns(websitePage);
+        progressCircle.setProgress(1);
     }
 
     private void handleProtocol() {

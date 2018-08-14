@@ -1,9 +1,8 @@
-package pl.birek.htmlparser.model;
+package pl.birek.util.web;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import pl.birek.htmlparser.enums.WebProtocol;
 
 import java.net.MalformedURLException;
 import java.net.URL;
